@@ -1,0 +1,60 @@
+apply plugin: 'war'
+apply plugin: 'maven'
+//apply plugin: 'eclipse'
+
+group = 'com.antonio'
+version = '1.0-SNAPSHOT'
+war.archiveName = rootProject.name + ".war"
+
+description = """AngularSpringRestManyToMany-back Maven Webapp"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+task createWrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}
+
+repositories {
+        
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    compile group: 'log4j', name: 'log4j', version:'1.2.17'
+    compile group: 'org.springframework', name: 'spring-core', version:'4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version:'4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version:'4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-tx', version:'4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version:'4.3.3.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-commons', version:'1.12.5.RELEASE'
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version:'1.10.5.RELEASE'
+    compile group: 'org.hibernate', name: 'hibernate-core', version:'4.3.6.Final'
+    compile group: 'javax.validation', name: 'validation-api', version:'1.1.0.Final'
+    compile group: 'org.hibernate', name: 'hibernate-validator', version:'5.1.3.Final'
+    compile group: 'mysql', name: 'mysql-connector-java', version:'5.1.31'
+    compile group: 'joda-time', name: 'joda-time', version:'2.3'
+    compile group: 'org.jadira.usertype', name: 'usertype.core', version:'3.0.0.CR1'
+    compile group: 'javax.servlet', name: 'javax.servlet-api', version:'3.1.0'
+    compile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version:'2.3.1'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.8.3'
+    compile group: 'javax.servlet', name: 'jstl', version:'1.2'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+    testCompile group: 'org.springframework', name: 'spring-test', version:'4.3.3.RELEASE'
+    testCompile group: 'org.testng', name: 'testng', version:'6.9.4'
+    testCompile group: 'org.mockito', name: 'mockito-all', version:'1.10.19'
+    testCompile group: 'com.h2database', name: 'h2', version:'1.4.187'
+    testCompile group: 'dbunit', name: 'dbunit', version:'2.2'
+}
+
+task deployToTomcat(dependsOn:build) {
+   description "Copia el war en el path de Tomcat"
+   doLast {
+	   copy {    
+	       println "in deployToTomcat"
+	       from war.archivePath
+	       into tomcatHome 
+	   }
+       println "Fin copia del fichero war sobre el path de tomcat"
+   }     
+}
